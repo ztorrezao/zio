@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Técnico de Inovação de TI | Banco de Moçambique</title>
+<style>
+  /* ===== MOBILE-FIRST: base styles target ~375px viewport ===== */
+  :root {
+    --primary: #1F4E79;
+    --primary-dark: #163E60;
+    --gold: #C8A951;
+    --gold-light: #E5C66E;
+    --success: #2E7D32;
+    --error: #C62828;
+    --bg: #F4F6F9;
+    --card: #FFFFFF;
+    --text: #1A1A1A;
+    --text-muted: #6B7280;
+    --border: #E5E7EB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--card);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    width: 100%;
+    background: var(--card);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 16px 18px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .header h1 { font-size: 16px; font-weight: 700; line-height: 1.3; }
+  .header .subtitle { font-size: 12px; opacity: 0.85; margin-top: 3px; }
+  .header .gold-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+
+  .progress-bar {
+    height: 5px;
+    background: var(--border);
+    width: 100%;
+    flex-shrink: 0;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .content {
+    padding: 20px 18px 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== Start screen ===== */
+  .start-screen { text-align: center; padding: 12px 0; display: flex; flex-direction: column; }
+  .start-screen h2 { font-size: 22px; color: var(--primary); margin-bottom: 10px; }
+  .start-screen p { color: var(--text-muted); margin-bottom: 18px; font-size: 14px; }
+  .start-info {
+    background: #F0F4F8;
+    border-left: 4px solid var(--primary);
+    padding: 14px 16px;
+    border-radius: 8px;
+    text-align: left;
+    margin: 16px 0;
+  }
+  .start-info ul { list-style: none; }
+  .start-info li {
+    padding: 6px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .start-info li:before {
+    content: "▸";
+    color: var(--gold);
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  /* ===== Status bar ===== */
+  .status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .difficulty-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+  }
+  .diff-1 { background: #E0F2E9; color: #2E7D32; }
+  .diff-2 { background: #FFF4E0; color: #B58000; }
+  .diff-3 { background: #FCE4E4; color: #C62828; }
+
+  /* ===== Question ===== */
+  .topic-tag {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .question-type {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .question-text {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text);
+    line-height: 1.45;
+  }
+
+  /* ===== Options (touch-friendly: min-height 56px) ===== */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    min-height: 56px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text);
+    font-family: inherit;
+    line-height: 1.4;
+  }
+  .option:active:not(:disabled) {
+    background: #F0F4F8;
+    border-color: var(--primary);
+  }
+  .option:disabled { cursor: not-allowed; opacity: 0.9; }
+  .option .letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: var(--border);
+    color: var(--text);
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .option.correct { border-color: var(--success); background: #E8F5E9; }
+  .option.correct .letter { background: var(--success); color: white; }
+  .option.wrong { border-color: var(--error); background: #FFEBEE; }
+  .option.wrong .letter { background: var(--error); color: white; }
+
+  /* ===== Fill input (font-size 16px prevents iOS zoom) ===== */
+  .fill-input {
+    width: 100%;
+    padding: 14px 16px;
+    min-height: 54px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--text);
+    background: white;
+    transition: border-color 0.15s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .fill-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.1);
+  }
+  .fill-input:disabled { background: #F8FAFC; }
+  .fill-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* ===== Buttons (touch-friendly: min-height 48px) ===== */
+  .btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    min-height: 48px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    font-family: inherit;
+    width: 100%;
+  }
+  .btn:active:not(:disabled) { background: var(--primary-dark); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-big { min-height: 54px; font-size: 16px; }
+  .actions { margin-top: 20px; display: flex; justify-content: stretch; gap: 10px; }
+
+  /* ===== Feedback ===== */
+  .feedback {
+    margin-top: 18px;
+    padding: 16px 16px;
+    border-radius: 12px;
+    animation: slideIn 0.3s ease;
+  }
+  .feedback.correct { background: #E8F5E9; border-left: 4px solid var(--success); }
+  .feedback.wrong { background: #FFEBEE; border-left: 4px solid var(--error); }
+  .feedback-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .feedback.correct .feedback-title { color: var(--success); }
+  .feedback.wrong .feedback-title { color: var(--error); }
+  .feedback-answer { font-size: 14px; margin-bottom: 8px; line-height: 1.5; }
+  .feedback-answer strong { color: var(--primary); }
+  .feedback-explanation { font-size: 14px; color: #444; line-height: 1.55; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== End screen ===== */
+  .end-screen { text-align: center; padding: 12px 0; }
+  .score-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin: 18px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+  .score-circle .pct { font-size: 34px; line-height: 1; }
+  .score-circle .label { font-size: 11px; opacity: 0.9; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+  .end-screen h2 { font-size: 22px; color: var(--primary); margin: 10px 0; }
+  .end-screen .summary { color: var(--text-muted); margin: 12px 0 18px; font-size: 14px; }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin: 20px 0;
+  }
+  .stat-card {
+    background: #F8FAFC;
+    border-radius: 10px;
+    padding: 12px 6px;
+  }
+  .stat-card .value { font-size: 20px; font-weight: 700; color: var(--primary); }
+  .stat-card .label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .recommendation {
+    background: linear-gradient(135deg, #F0F4F8 0%, #E8ECF1 100%);
+    border-radius: 12px;
+    padding: 16px 18px;
+    text-align: left;
+    margin: 18px 0;
+    border-left: 4px solid var(--gold);
+  }
+  .recommendation strong { color: var(--primary); display: block; margin-bottom: 6px; }
+  .recommendation p { font-size: 14px; color: #444; line-height: 1.6; }
+
+  /* ===== TABLET AND UP (>= 600px) ===== */
+  @media (min-width: 600px) {
+    body {
+      background: linear-gradient(135deg, var(--bg) 0%, #E8ECF1 100%);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px;
+    }
+    .container {
+      max-width: 720px;
+      min-height: 0;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .header { padding: 22px 28px; }
+    .header h1 { font-size: 19px; }
+    .header .subtitle { font-size: 13px; }
+    .content { padding: 28px 28px 32px; min-height: 420px; }
+    .question-text { font-size: 18px; margin-bottom: 24px; }
+    .option {
+      padding: 14px 18px;
+      font-size: 15px;
+    }
+    .option:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: #F8FAFC;
+      transform: translateY(-1px);
+    }
+    .btn {
+      width: auto;
+      padding: 14px 28px;
+    }
+    .btn:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(31, 78, 121, 0.25);
+    }
+    .actions { justify-content: flex-end; }
+    .start-screen h2 { font-size: 26px; }
+    .start-screen p { font-size: 15px; }
+    .score-circle { width: 160px; height: 160px; }
+    .score-circle .pct { font-size: 42px; }
+    .score-circle .label { font-size: 12px; }
+    .end-screen h2 { font-size: 24px; }
+    .stats-grid { gap: 12px; }
+    .stat-card { padding: 16px 12px; }
+    .stat-card .value { font-size: 22px; }
+    .stat-card .label { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Quiz — Técnico de Inovação de TI</h1>
+    <div class="subtitle">Preparação para o Concurso Público do Banco de Moçambique</div>
+    <div class="gold-bar"></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="content" id="content"></div>
+</div>
+
+<script>
+// ============ QUESTION BANK ============
+// difficulty: 1 = Fundamentos, 2 = Intermédio, 3 = Avançado
+const QUESTIONS = [
+  // ============================================
+  // DIFFICULTY 1 — FUNDAMENTOS (~30 perguntas)
+  // ============================================
+  { type: "mc", difficulty: 1, topic: "ISO 56002",
+    question: "A norma ISO 56002 estabelece directrizes para:",
+    options: ["Sistemas de Gestão da Qualidade", "Sistemas de Gestão da Segurança da Informação", "Sistemas de Gestão da Inovação", "Sistemas de Gestão Ambiental"],
+    correctIndex: 2,
+    explanation: "ISO 56002 trata especificamente de Sistemas de Gestão da Inovação. Para referência: ISO 9001 = qualidade, ISO 27001 = segurança da informação, ISO 14001 = ambiente." },
+
+  { type: "fill", difficulty: 1, topic: "CBDC",
+    question: "O acrónimo CBDC significa Central Bank Digital _____.",
+    correctAnswers: ["currency"],
+    explanation: "CBDC = Central Bank Digital Currency (Moeda Digital de Banco Central). É a versão digital da moeda fiduciária emitida directamente pelo banco central." },
+
+  { type: "mc", difficulty: 1, topic: "Cloud",
+    question: "No modelo de Cloud Computing, o serviço que dá ao cliente maior controlo sobre a infraestrutura é:",
+    options: ["SaaS", "PaaS", "IaaS", "FaaS"],
+    correctIndex: 2,
+    explanation: "IaaS (Infrastructure as a Service) entrega infraestrutura virtualizada. O cliente gere SO, runtime e aplicação. SaaS é o mais gerido pelo fornecedor; PaaS está entre os dois." },
+
+  { type: "tf", difficulty: 1, topic: "Machine Learning",
+    question: "Deep Learning é um subconjunto de Machine Learning.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Deep Learning é um subconjunto de ML baseado em redes neuronais profundas. Hierarquia: IA ⊃ Machine Learning ⊃ Deep Learning." },
+
+  { type: "mc", difficulty: 1, topic: "Scrum",
+    question: "No Scrum, o papel responsável por maximizar o valor do produto é o:",
+    options: ["Scrum Master", "Product Owner", "Development Team", "Stakeholder"],
+    correctIndex: 1,
+    explanation: "O Product Owner gere o backlog do produto e prioridades, decidindo o que entra em cada sprint para maximizar valor. O Scrum Master serve a equipa; a Dev Team executa." },
+
+  { type: "fill", difficulty: 1, topic: "Kotter",
+    question: "O primeiro passo do modelo de Kotter (8 passos) é criar um sentido de _____.",
+    correctAnswers: ["urgencia", "urgência"],
+    explanation: "Criar um sentido de urgência (sense of urgency) é o passo 1 de Kotter. Sem urgência percebida, a mudança não arranca." },
+
+  { type: "mc", difficulty: 1, topic: "CBDC",
+    question: "CBDC significa:",
+    options: ["Central Bank Digital Currency", "Centralized Banking Data Channel", "Crypto-Backed Digital Coin", "Continuous Banking Data Control"],
+    correctIndex: 0,
+    explanation: "Central Bank Digital Currency é a forma digital da moeda fiduciária emitida directamente pelo banco central." },
+
+  { type: "tf", difficulty: 1, topic: "Blockchain",
+    question: "Blockchain é uma tecnologia exclusiva para criptomoedas.",
+    correctAnswer: false,
+    explanation: "Falso. Blockchain tem muitas aplicações além de criptomoedas: smart contracts, rastreabilidade de cadeia de abastecimento, identidade digital, registos de propriedade, CBDCs, etc." },
+
+  { type: "mc", difficulty: 1, topic: "Machine Learning",
+    question: "Aprendizagem supervisionada distingue-se de não-supervisionada porque:",
+    options: ["Usa redes neuronais em vez de árvores de decisão", "Trabalha com dados rotulados (com resposta conhecida)", "É executada na cloud", "Requer intervenção humana em tempo real"],
+    correctIndex: 1,
+    explanation: "Aprendizagem supervisionada usa dados rotulados (com a resposta certa). A não-supervisionada procura padrões em dados não rotulados (ex.: clustering)." },
+
+  { type: "fill", difficulty: 1, topic: "Lewin",
+    question: "Os três estágios do modelo de Lewin são: Unfreeze, _____ e Refreeze.",
+    correctAnswers: ["change", "mudar", "mudanca", "mudança"],
+    explanation: "Os 3 estágios: Unfreeze (descongelar — quebrar resistências), Change (mudar — implementar) e Refreeze (recongelar — consolidar)." },
+
+  { type: "mc", difficulty: 1, topic: "Open Banking",
+    question: "Open Banking caracteriza-se principalmente por:",
+    options: ["Tornar todos os dados bancários públicos", "Permitir, com consentimento do cliente, a partilha de dados financeiros entre instituições via APIs", "Eliminar a regulamentação do sector bancário", "Substituir a banca tradicional por criptomoedas"],
+    correctIndex: 1,
+    explanation: "Open Banking permite, mediante consentimento explícito do cliente, a partilha segura de dados financeiros entre instituições através de APIs padronizadas." },
+
+  { type: "tf", difficulty: 1, topic: "ADKAR",
+    question: "ADKAR é um modelo de gestão de mudança focado nas dimensões individuais da transição.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. ADKAR (Awareness, Desire, Knowledge, Ability, Reinforcement) foca-se na mudança ao nível individual — cada pessoa atravessa estas 5 fases." },
+
+  { type: "mc", difficulty: 1, topic: "Transformação Digital",
+    question: "Um dos quatro pilares da transformação digital geralmente aceites é:",
+    options: ["Lucro", "Cultura organizacional", "Marketing", "Recursos naturais"],
+    correctIndex: 1,
+    explanation: "Os quatro pilares típicos são: pessoas, processos, tecnologia e cultura organizacional. Sem cultura, a tecnologia por si só não transforma." },
+
+  { type: "fill", difficulty: 1, topic: "Scrum",
+    question: "Os três papéis (responsabilidades) do Scrum são: Product Owner, Developers (Dev Team) e _____ Master.",
+    correctAnswers: ["scrum"],
+    explanation: "Os três papéis: Product Owner (valor do produto), Scrum Master (facilita o processo) e Developers/Dev Team (constroem o incremento)." },
+
+  { type: "mc", difficulty: 1, topic: "PMBOK",
+    question: "Segundo o PMBOK, os grupos de processos da gestão de projectos são:",
+    options: ["Planeamento, Desenvolvimento, Testes, Entrega", "Iniciação, Planeamento, Execução, Monitorização e Controlo, Encerramento", "Análise, Desenho, Implementação, Operação", "Visão, Missão, Estratégia, Táctica, Operação"],
+    correctIndex: 1,
+    explanation: "Os 5 grupos de processos do PMBOK: Iniciação, Planeamento, Execução, Monitorização & Controlo, e Encerramento." },
+
+  { type: "tf", difficulty: 1, topic: "ISO 56002",
+    question: "A norma ISO 56002 é certificável, à semelhança da ISO 9001.",
+    correctAnswer: false,
+    explanation: "Falso. A ISO 56002 fornece directrizes (guidance) e não é certificável. A norma certificável da família é a ISO 56001." },
+
+  { type: "mc", difficulty: 1, topic: "Blockchain",
+    question: "No contexto blockchain, \"mecanismo de consenso\" refere-se a:",
+    options: ["O acordo entre developers sobre o código", "O processo pelo qual os nós da rede concordam sobre o estado válido do registo", "A votação dos utilizadores sobre alterações", "A aprovação regulamentar da rede"],
+    correctIndex: 1,
+    explanation: "O mecanismo de consenso é o protocolo (ex.: PoW, PoS) pelo qual os nós da rede concordam sobre qual é a versão válida do registo, sem necessidade de uma autoridade central." },
+
+  { type: "fill", difficulty: 1, topic: "ADKAR",
+    question: "No modelo ADKAR, a letra A inicial significa _____.",
+    correctAnswers: ["awareness", "consciencia", "consciência"],
+    explanation: "A = Awareness (Consciência) — consciência da necessidade da mudança. As 5 letras: Awareness, Desire, Knowledge, Ability, Reinforcement." },
+
+  { type: "mc", difficulty: 1, topic: "IA",
+    question: "A classificação correcta dos tipos de IA é:",
+    options: ["IA Estreita (Narrow), IA Geral (General) e Super-IA", "IA Estática, IA Dinâmica e IA Híbrida", "IA Local, IA Cloud e IA Edge", "IA Aberta, IA Fechada e IA Mista"],
+    correctIndex: 0,
+    explanation: "Narrow AI (tarefas específicas — todos os modelos actuais), General AI (cognição equivalente ao humano — ainda hipotética) e Super AI (acima do humano — hipotética)." },
+
+  { type: "tf", difficulty: 1, topic: "Cloud",
+    question: "Cloud híbrida combina recursos de cloud pública e privada, permitindo maior flexibilidade.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Cloud híbrida orquestra cargas entre clouds pública e privada, equilibrando custo, controlo e flexibilidade." },
+
+  { type: "mc", difficulty: 1, topic: "Smart Contracts",
+    question: "Uma característica fundamental de um smart contract é:",
+    options: ["Necessita de aprovação humana para cada execução", "Executa-se automaticamente quando as condições pré-definidas são cumpridas", "Pode ser alterado livremente após implantação", "Funciona apenas em redes centralizadas"],
+    correctIndex: 1,
+    explanation: "Smart contracts são programas autoexecutáveis numa blockchain que disparam acções automaticamente quando condições pré-definidas são satisfeitas, sem intermediários." },
+
+  { type: "fill", difficulty: 1, topic: "ISO 56002",
+    question: "A norma ISO _____ define directrizes para Sistemas de Gestão da Inovação.",
+    correctAnswers: ["56002"],
+    explanation: "ISO 56002:2019 fornece directrizes para Sistemas de Gestão da Inovação. A norma certificável é a ISO 56001." },
+
+  { type: "mc", difficulty: 1, topic: "Cloud",
+    question: "Qual destes NÃO é um modelo de implantação (deployment) de cloud computing?",
+    options: ["Cloud Pública", "Cloud Privada", "Cloud Híbrida", "Cloud Vertical"],
+    correctIndex: 3,
+    explanation: "Os 4 modelos de implantação são: Pública, Privada, Híbrida e Comunitária. \"Vertical\" não existe como modelo de deployment de cloud." },
+
+  { type: "tf", difficulty: 1, topic: "Cloud",
+    question: "No modelo SaaS, a responsabilidade pela manutenção e actualização da aplicação é totalmente do cliente.",
+    correctAnswer: false,
+    explanation: "Falso. No SaaS, a manutenção e actualização são responsabilidade do fornecedor; o cliente apenas consome o serviço." },
+
+  { type: "mc", difficulty: 1, topic: "Scrum",
+    question: "A principal responsabilidade do Scrum Master é:",
+    options: ["Gerir o backlog do produto", "Liderar tecnicamente a equipa", "Servir a equipa removendo impedimentos e promovendo o Scrum", "Aprovar os entregáveis perante stakeholders"],
+    correctIndex: 2,
+    explanation: "O Scrum Master é um servant-leader. Não tem autoridade hierárquica — facilita o processo, remove impedimentos e protege a equipa." },
+
+  { type: "fill", difficulty: 1, topic: "Cloud",
+    question: "O acrónimo IaaS significa _____ as a Service.",
+    correctAnswers: ["infrastructure", "infraestrutura"],
+    explanation: "IaaS = Infrastructure as a Service. Fornece infraestrutura virtualizada (servidores, storage, rede) sob demanda." },
+
+  { type: "mc", difficulty: 1, topic: "Manifesto Ágil",
+    question: "Um dos quatro valores do Manifesto Ágil é:",
+    options: ["Processos e ferramentas acima de indivíduos e interacções", "Documentação extensa acima de software funcional", "Indivíduos e interacções acima de processos e ferramentas", "Contratos rígidos acima de colaboração"],
+    correctIndex: 2,
+    explanation: "Os 4 valores: (1) Indivíduos e interacções > processos e ferramentas; (2) Software funcional > documentação extensa; (3) Colaboração com o cliente > negociação de contratos; (4) Resposta à mudança > seguir um plano." },
+
+  { type: "tf", difficulty: 1, topic: "Scrum",
+    question: "O Daily Scrum deve ter uma duração máxima de 15 minutos.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. O Daily Scrum é uma reunião time-boxed a 15 minutos, independentemente da dimensão da equipa." },
+
+  { type: "fill", difficulty: 1, topic: "Kotter",
+    question: "O modelo de Kotter para gestão da mudança é composto por _____ passos.",
+    correctAnswers: ["8", "oito"],
+    explanation: "Kotter propôs 8 passos no livro \"Leading Change\" (1996): urgência, coligação, visão, comunicação, capacitação, vitórias rápidas, consolidação, ancoragem." },
+
+  { type: "mc", difficulty: 1, topic: "Lean Startup",
+    question: "O conceito de \"MVP\" (Minimum Viable Product), associado à Lean Startup, refere-se a:",
+    options: ["A versão final e completa de um produto", "Uma versão mínima e funcional para validar hipóteses com utilizadores reais", "Um protótipo apenas visual sem código", "A estratégia de marketing do produto"],
+    correctIndex: 1,
+    explanation: "MVP é a versão mais simples que permite testar a hipótese central do produto com utilizadores reais, aprender, e iterar (ciclo build-measure-learn de Eric Ries)." },
+
+  // ============================================
+  // DIFFICULTY 2 — INTERMÉDIO (~30 perguntas)
+  // ============================================
+  { type: "mc", difficulty: 2, topic: "Kotter",
+    question: "No modelo de Kotter (8 passos), o primeiro passo é:",
+    options: ["Formar uma coligação orientadora", "Criar um sentido de urgência", "Desenvolver uma visão e estratégia", "Comunicar a visão da mudança"],
+    correctIndex: 1,
+    explanation: "Passo 1 = Criar um sentido de urgência. Sem urgência percebida, falta combustível para a mudança." },
+
+  { type: "fill", difficulty: 2, topic: "Big Data",
+    question: "Os 5 Vs do Big Data são: Volume, Velocidade, Variedade, Veracidade e _____.",
+    correctAnswers: ["valor"],
+    explanation: "Os 5 Vs: Volume (quantidade), Velocidade (taxa de produção), Variedade (tipos de dados), Veracidade (qualidade/confiabilidade) e Valor (utilidade para o negócio)." },
+
+  { type: "mc", difficulty: 2, topic: "Cloud",
+    question: "No modelo de Cloud Computing, o PaaS (Platform as a Service) distingue-se por:",
+    options: ["Fornecer apenas hardware virtualizado", "Disponibilizar uma plataforma de desenvolvimento, gerindo a infraestrutura subjacente", "Fornecer software pronto ao utilizador final", "Eliminar a necessidade de qualquer fornecedor"],
+    correctIndex: 1,
+    explanation: "PaaS dá uma plataforma (runtime, bases de dados, ferramentas) onde os developers fazem deploy de aplicações sem se preocuparem com a infraestrutura." },
+
+  { type: "tf", difficulty: 2, topic: "Scrum",
+    question: "No Scrum, o Product Owner é o responsável directo pela gestão hierárquica da equipa de desenvolvimento.",
+    correctAnswer: false,
+    explanation: "Falso. O Product Owner gere o backlog e prioridades, não tem autoridade hierárquica sobre a equipa. A equipa é auto-organizada." },
+
+  { type: "mc", difficulty: 2, topic: "Scrum",
+    question: "Qual dos seguintes NÃO é um evento (cerimónia) oficial do Scrum?",
+    options: ["Sprint Planning", "Daily Scrum", "Sprint Review", "Code Review"],
+    correctIndex: 3,
+    explanation: "Os eventos oficiais do Scrum são: o Sprint (que contém os outros), Sprint Planning, Daily Scrum, Sprint Review e Sprint Retrospective. \"Code Review\" não está no Scrum Guide." },
+
+  { type: "fill", difficulty: 2, topic: "ADKAR",
+    question: "No modelo ADKAR, a fase \"D\" corresponde a _____.",
+    correctAnswers: ["desire", "desejo"],
+    explanation: "D = Desire (Desejo). Após a consciência (Awareness), é preciso o desejo individual de participar e apoiar a mudança." },
+
+  { type: "mc", difficulty: 2, topic: "Blockchain",
+    question: "Uma blockchain de tipo \"consórcio\" caracteriza-se por:",
+    options: ["Ser totalmente pública e sem permissões", "Ser controlada por um único actor privado", "Ser gerida por um grupo restrito de organizações pré-aprovadas", "Existir apenas em ambiente de testes"],
+    correctIndex: 2,
+    explanation: "Blockchain de consórcio é semi-descentralizada: gerida por um grupo restrito de organizações pré-aprovadas. Comum em casos B2B e regulatórios." },
+
+  { type: "tf", difficulty: 2, topic: "Cibersegurança",
+    question: "A criptografia de chave pública é um componente fundamental da segurança das blockchains.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Pares chave pública/privada autenticam transacções, asseguram não-repúdio e protegem a integridade da cadeia." },
+
+  { type: "mc", difficulty: 2, topic: "Machine Learning",
+    question: "Um problema de classificação em Machine Learning consiste em:",
+    options: ["Agrupar observações sem rótulos prévios", "Atribuir cada observação a uma de várias categorias discretas", "Prever um valor numérico contínuo", "Reduzir a dimensionalidade dos dados"],
+    correctIndex: 1,
+    explanation: "Classificação atribui categorias discretas (ex.: fraude/não-fraude). Regressão prevê valores contínuos. Clustering agrupa sem rótulos." },
+
+  { type: "fill", difficulty: 2, topic: "ISO 56002",
+    question: "A norma certificável da família ISO 5600x dedicada à gestão da inovação é a ISO _____.",
+    correctAnswers: ["56001"],
+    explanation: "A ISO 56001 é a norma certificável, publicada para complementar a ISO 56002 (que fornece apenas directrizes)." },
+
+  { type: "mc", difficulty: 2, topic: "RegTech / SupTech",
+    question: "A diferença essencial entre RegTech e SupTech é que:",
+    options: ["RegTech apoia as instituições reguladas no cumprimento, enquanto SupTech apoia os reguladores na supervisão", "RegTech é para bancos e SupTech para seguradoras", "São sinónimos", "SupTech só se aplica a criptomoedas"],
+    correctIndex: 0,
+    explanation: "RegTech (Regulatory Technology) ajuda instituições reguladas a cumprir regulamentação. SupTech (Supervisory Technology) ajuda reguladores como o BM a supervisionar." },
+
+  { type: "tf", difficulty: 2, topic: "Machine Learning",
+    question: "Modelos de Machine Learning são imunes a viés porque são baseados em matemática.",
+    correctAnswer: false,
+    explanation: "Falso. Modelos de ML podem amplificar viés presente nos dados de treino, no desenho do modelo ou na função objectivo. Bias auditing é essencial." },
+
+  { type: "mc", difficulty: 2, topic: "DevOps",
+    question: "Em DevOps, o conceito de CI/CD significa:",
+    options: ["Critical Infrastructure / Continuous Defence", "Continuous Integration / Continuous Delivery (ou Deployment)", "Code Inspection / Code Delivery", "Centralized Information / Centralized Deployment"],
+    correctIndex: 1,
+    explanation: "CI/CD = Continuous Integration (integração contínua de código) / Continuous Delivery ou Deployment (entrega ou implantação contínua em produção)." },
+
+  { type: "fill", difficulty: 2, topic: "PMBOK",
+    question: "Segundo o PMBOK, o grupo de processos que se segue ao Planeamento é _____.",
+    correctAnswers: ["execucao", "execução"],
+    explanation: "Sequência típica: Iniciação → Planeamento → Execução → Monitorização e Controlo → Encerramento. Monitorização e Controlo ocorre em paralelo com Execução." },
+
+  { type: "mc", difficulty: 2, topic: "PMBOK / PRINCE2",
+    question: "PMBOK e PRINCE2 são abordagens à gestão de projectos que:",
+    options: ["São incompatíveis e não podem coexistir", "São complementares: PMBOK descritivo (boas práticas) e PRINCE2 prescritivo (método)", "Aplicam-se apenas a projectos ágeis", "Aplicam-se apenas a projectos de TI"],
+    correctIndex: 1,
+    explanation: "PMBOK é mais descritivo (conjunto de boas práticas e áreas de conhecimento). PRINCE2 é prescritivo (método com processos e papéis definidos). Muitas organizações combinam ambos." },
+
+  { type: "tf", difficulty: 2, topic: "RPA / IA",
+    question: "RPA (Robotic Process Automation) e IA são a mesma tecnologia, apenas com nomes diferentes.",
+    correctAnswer: false,
+    explanation: "Falso. RPA automatiza tarefas baseadas em regras explícitas (sem aprendizagem). IA envolve aprendizagem e raciocínio. Combinam-se em \"Intelligent Automation\"." },
+
+  { type: "mc", difficulty: 2, topic: "Inovação",
+    question: "Um KPI típico para medir o desempenho de um programa de inovação é:",
+    options: ["Número de ideias geradas, taxa de conversão em projectos e ROI da inovação", "Apenas o número de patentes registadas", "Apenas o orçamento gasto", "O número de horas extra dos colaboradores"],
+    correctIndex: 0,
+    explanation: "KPIs típicos: ideias geradas, taxa de conversão em projectos, time-to-market, ROI da inovação, percentagem de receita de novos produtos, engagement dos colaboradores." },
+
+  { type: "fill", difficulty: 2, topic: "Manifesto Ágil",
+    question: "O Manifesto Ágil tem 4 valores e ___ princípios.",
+    correctAnswers: ["12", "doze"],
+    explanation: "O Manifesto Ágil tem 4 valores e 12 princípios, publicado em 2001 por 17 signatários (Beck, Cunningham, Sutherland, Schwaber, entre outros)." },
+
+  { type: "mc", difficulty: 2, topic: "Design Thinking",
+    question: "As cinco fases do Design Thinking (Stanford d.school) são, pela ordem:",
+    options: ["Definir, Testar, Empatizar, Idear, Prototipar", "Empatizar, Definir, Idear, Prototipar, Testar", "Idear, Prototipar, Testar, Empatizar, Definir", "Planear, Desenhar, Construir, Testar, Lançar"],
+    correctIndex: 1,
+    explanation: "Ordem: Empatizar (compreender) → Definir (formular o problema) → Idear (gerar ideias) → Prototipar (criar versões) → Testar (validar com utilizadores)." },
+
+  { type: "tf", difficulty: 2, topic: "Lewin",
+    question: "No modelo de Lewin, a fase \"Refreeze\" tem como objectivo consolidar a mudança implementada.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Refreeze (recongelar) institucionaliza a mudança nas práticas, cultura e procedimentos para evitar regressão." },
+
+  { type: "mc", difficulty: 2, topic: "RegTech",
+    question: "RegTech refere-se a:",
+    options: ["Tecnologias para uso exclusivo de bancos centrais", "Tecnologias que apoiam instituições financeiras no cumprimento de obrigações regulatórias", "Tecnologias de registo notarial digital", "Regulamentação aplicável a empresas tecnológicas"],
+    correctIndex: 1,
+    explanation: "RegTech = Regulatory Technology. Soluções tecnológicas (IA, big data, blockchain) que apoiam instituições no cumprimento eficiente da regulamentação." },
+
+  { type: "fill", difficulty: 2, topic: "Scrum",
+    question: "O artefacto do Scrum que lista todo o trabalho a ser feito no produto chama-se Product _____.",
+    correctAnswers: ["backlog"],
+    explanation: "Os 3 artefactos do Scrum: Product Backlog (todo o trabalho do produto), Sprint Backlog (trabalho do sprint actual), Incremento (resultado utilizável)." },
+
+  { type: "mc", difficulty: 2, topic: "Risco",
+    question: "Num processo de gestão de risco (ISO 31000), a fase que se segue à identificação dos riscos é:",
+    options: ["Comunicação aos stakeholders", "Análise e avaliação dos riscos", "Encerramento do risco", "Implementação de controlos"],
+    correctIndex: 1,
+    explanation: "Sequência ISO 31000: Estabelecimento de contexto → Identificação → Análise → Avaliação → Tratamento. Comunicação e monitorização são transversais." },
+
+  { type: "tf", difficulty: 2, topic: "Scrum",
+    question: "O Scrum Guide recomenda equipas pequenas, tipicamente até 10 pessoas, incluindo todos os papéis.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. O Scrum Guide recomenda tipicamente 10 ou menos pessoas, equilibrando coesão e capacidade de entrega." },
+
+  { type: "mc", difficulty: 2, topic: "Transformação Digital",
+    question: "Na transformação digital, o pilar \"cultura organizacional\" é fundamental porque:",
+    options: ["Sem mudança cultural a tecnologia, por si só, não produz transformação", "Permite reduzir o orçamento de TI", "Substitui a necessidade de formação", "Torna a infraestrutura física desnecessária"],
+    correctIndex: 0,
+    explanation: "A tecnologia é o \"como\". Sem mudança cultural (mentalidade, comportamentos, modelos mentais), a tecnologia não produz transformação real." },
+
+  { type: "fill", difficulty: 2, topic: "Bitcoin",
+    question: "O fundador (pseudónimo) do Bitcoin é conhecido como Satoshi _____.",
+    correctAnswers: ["nakamoto"],
+    explanation: "Satoshi Nakamoto é o pseudónimo do criador (ou criadores) do Bitcoin, que publicou o white paper em 2008 e a primeira implementação em 2009." },
+
+  { type: "mc", difficulty: 2, topic: "Inovação",
+    question: "A inovação radical distingue-se da incremental por:",
+    options: ["Ser mais barata", "Criar mudanças significativas, novos mercados ou modelos de negócio", "Aplicar-se apenas a software", "Ser aprovada mais facilmente"],
+    correctIndex: 1,
+    explanation: "Incremental = melhorias graduais. Radical = mudanças significativas que criam novos mercados ou modelos (ex.: M-Pesa no mobile money)." },
+
+  { type: "tf", difficulty: 2, topic: "Funil de Inovação",
+    question: "O funil de inovação (innovation funnel) é uma ferramenta que apoia a filtragem progressiva de ideias até aos projectos a implementar.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. O funil de inovação filtra ideias em fases sucessivas: ideação → conceito → desenvolvimento → lançamento, com critérios em cada gate." },
+
+  { type: "mc", difficulty: 2, topic: "Big Data",
+    question: "Os 5 Vs caracterizadores de Big Data são tipicamente:",
+    options: ["Volume, Velocidade, Variedade, Veracidade, Valor", "Volume, Versão, Variedade, Validação, Valor", "Velocidade, Validade, Variedade, Visibilidade, Volume", "Volume, Velocidade, Verificação, Variedade, Vigilância"],
+    correctIndex: 0,
+    explanation: "5 Vs: Volume (quantidade), Velocidade (taxa de chegada), Variedade (tipos), Veracidade (qualidade) e Valor (utilidade para o negócio)." },
+
+  // ============================================
+  // DIFFICULTY 3 — AVANÇADO (~25 perguntas)
+  // ============================================
+  { type: "mc", difficulty: 3, topic: "Kotter",
+    question: "No modelo dos 8 passos de Kotter, a geração de \"vitórias rápidas\" (quick wins) corresponde a:",
+    options: ["Passo 2", "Passo 4", "Passo 6", "Passo 8"],
+    correctIndex: 2,
+    explanation: "Quick wins são o passo 6 de Kotter. Servem para manter momentum e demonstrar que a mudança traz resultados tangíveis." },
+
+  { type: "fill", difficulty: 3, topic: "Blockchain",
+    question: "O acrónimo DLT, frequentemente usado em paralelo com blockchain, significa _____ Ledger Technology.",
+    correctAnswers: ["distributed"],
+    explanation: "DLT = Distributed Ledger Technology. Blockchain é um tipo específico de DLT (com blocos encadeados criptograficamente), mas nem toda a DLT é blockchain (ex.: DAGs)." },
+
+  { type: "mc", difficulty: 3, topic: "Inovação",
+    question: "A inovação disruptiva, segundo Clayton Christensen, caracteriza-se por:",
+    options: ["Atacar primeiro o segmento premium do mercado", "Começar em segmentos inferiores ou nichos negligenciados e subir gradualmente", "Ser sempre tecnológica", "Exigir grande investimento inicial"],
+    correctIndex: 1,
+    explanation: "Christensen definiu inovação disruptiva como aquela que começa em segmentos baixos ou nichos (low-end / new-market), com produtos \"piores\" para os clientes principais, e depois sobe na cadeia de valor." },
+
+  { type: "tf", difficulty: 3, topic: "Cibersegurança",
+    question: "A computação quântica representa, no longo prazo, uma potencial ameaça à criptografia assimétrica actualmente utilizada (RSA, ECC).",
+    correctAnswer: true,
+    explanation: "Verdadeiro. O algoritmo de Shor, em computadores quânticos suficientemente potentes, quebraria RSA e ECC. Por isso a corrida pela criptografia pós-quântica (NIST)." },
+
+  { type: "mc", difficulty: 3, topic: "CBDC",
+    question: "A diferença essencial entre CBDC \"wholesale\" e CBDC \"retail\" é que:",
+    options: ["Wholesale é digital e retail é em papel", "Wholesale é para liquidação interbancária; retail é para o público em geral", "Wholesale é mais cara", "Retail é apenas para grandes empresas"],
+    correctIndex: 1,
+    explanation: "CBDC wholesale (grossista) destina-se a instituições financeiras para liquidação interbancária. CBDC retail (retalho) destina-se ao público em geral, substituindo ou complementando o numerário." },
+
+  { type: "fill", difficulty: 3, topic: "Cibersegurança",
+    question: "O algoritmo quântico que ameaça a criptografia RSA é o algoritmo de _____.",
+    correctAnswers: ["shor"],
+    explanation: "O algoritmo de Shor (Peter Shor, 1994) pode factorizar inteiros em tempo polinomial num computador quântico, quebrando RSA. O algoritmo de Grover ameaça parcialmente a criptografia simétrica." },
+
+  { type: "mc", difficulty: 3, topic: "Blockchain",
+    question: "Distinção correcta entre blockchain e DLT:",
+    options: ["São sinónimos", "Blockchain é um tipo específico de DLT com blocos encadeados criptograficamente; nem toda DLT é blockchain", "DLT é mais antiga que blockchain", "Blockchain é centralizada e DLT é descentralizada"],
+    correctIndex: 1,
+    explanation: "DLT é o conceito amplo (registo distribuído). Blockchain é uma implementação específica com blocos encadeados em ordem cronológica. Hedera Hashgraph, por exemplo, é DLT mas não blockchain." },
+
+  { type: "tf", difficulty: 3, topic: "Blockchain",
+    question: "Bitcoin e blockchain são termos sinónimos e referem-se à mesma tecnologia.",
+    correctAnswer: false,
+    explanation: "Falso. Bitcoin é uma aplicação (criptomoeda) que usa blockchain como infraestrutura. Blockchain é a tecnologia subjacente, com muitas outras aplicações além de criptomoedas." },
+
+  { type: "mc", difficulty: 3, topic: "AML/CFT",
+    question: "No contexto AML/CFT, \"PEPs\" significa:",
+    options: ["Privacy Enhanced Protocols", "Politically Exposed Persons", "Public Electronic Payments", "Personal Encrypted Passwords"],
+    correctIndex: 1,
+    explanation: "PEPs = Politically Exposed Persons. Indivíduos com proeminência política (e seus familiares próximos e associados) que requerem due diligence reforçada por risco elevado de corrupção." },
+
+  { type: "fill", difficulty: 3, topic: "Scrum",
+    question: "No Scrum, um sprint pode ter no máximo ___ semanas de duração.",
+    correctAnswers: ["4", "quatro"],
+    explanation: "Sprints têm duração máxima de 1 mês (geralmente expresso como até 4 semanas). Sprints mais curtos (1-2 semanas) reduzem risco e aumentam feedback." },
+
+  { type: "mc", difficulty: 3, topic: "Blockchain",
+    question: "Qual dos seguintes NÃO é um mecanismo de consenso usado em blockchains?",
+    options: ["Proof of Work (PoW)", "Proof of Stake (PoS)", "Practical Byzantine Fault Tolerance (PBFT)", "Round-Robin Polling Consensus (RRPC)"],
+    correctIndex: 3,
+    explanation: "Os três primeiros são mecanismos reais (Bitcoin usa PoW, Ethereum usa PoS, blockchains permissionadas frequentemente usam PBFT). RRPC não é um consenso conhecido." },
+
+  { type: "tf", difficulty: 3, topic: "PMBOK / PRINCE2",
+    question: "PMBOK é uma metodologia prescritiva enquanto PRINCE2 é um conjunto de boas práticas descritivas.",
+    correctAnswer: false,
+    explanation: "Falso — é exactamente o contrário. PMBOK (PMI) é descritivo (boas práticas, áreas de conhecimento). PRINCE2 é prescritivo (método estruturado com processos, papéis e produtos)." },
+
+  { type: "mc", difficulty: 3, topic: "ISO 27001",
+    question: "A norma ISO 27001 trata especificamente de:",
+    options: ["Gestão da inovação", "Gestão da qualidade", "Sistemas de Gestão da Segurança da Informação (SGSI)", "Gestão ambiental"],
+    correctIndex: 2,
+    explanation: "ISO 27001 é a norma certificável para Sistemas de Gestão da Segurança da Informação (ISMS), parte da família ISO 27000." },
+
+  { type: "fill", difficulty: 3, topic: "Cibersegurança",
+    question: "O framework de cibersegurança publicado pelo NIST é frequentemente abreviado como NIST _____.",
+    correctAnswers: ["csf"],
+    explanation: "NIST CSF = NIST Cybersecurity Framework. Define cinco funções: Identify, Protect, Detect, Respond, Recover. Largamente adoptado em todo o sector financeiro." },
+
+  { type: "mc", difficulty: 3, topic: "Análise Estratégica",
+    question: "A diferença essencial entre SWOT e PESTEL é que:",
+    options: ["São exactamente a mesma análise", "SWOT analisa internos e externos da organização; PESTEL analisa apenas factores macro-ambientais", "SWOT é só para projectos pequenos", "PESTEL é apenas para o sector público"],
+    correctIndex: 1,
+    explanation: "SWOT cruza factores internos (forças/fraquezas) com externos (oportunidades/ameaças). PESTEL analisa apenas o macro-ambiente externo (Político, Económico, Social, Tecnológico, Ecológico, Legal). São complementares." },
+
+  { type: "tf", difficulty: 3, topic: "Scrum",
+    question: "O Scrum Guide foi criado por Ken Schwaber e Jeff Sutherland.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Ken Schwaber e Jeff Sutherland são os co-criadores do Scrum e autores do Scrum Guide (mantido e actualizado periodicamente)." },
+
+  { type: "mc", difficulty: 3, topic: "Open Banking",
+    question: "Num esquema de Open Banking, um TPP (Third Party Provider) que apenas inicia pagamentos é classificado como:",
+    options: ["AISP (Account Information Service Provider)", "PISP (Payment Initiation Service Provider)", "PSP (Payment Service Provider) tradicional", "CASP (Custody Account Service Provider)"],
+    correctIndex: 1,
+    explanation: "PISP inicia pagamentos em nome do cliente (com consentimento). AISP apenas agrega informação de contas. Ambos surgem com a PSD2 europeia." },
+
+  { type: "fill", difficulty: 3, topic: "Scrum",
+    question: "No Scrum, o evento que serve para a equipa reflectir sobre o seu processo e identificar melhorias chama-se Sprint _____.",
+    correctAnswers: ["retrospective", "retrospectiva", "retrospetiva"],
+    explanation: "Sprint Retrospective (no fim do sprint, após a Review) é onde a equipa inspecciona o seu próprio processo e identifica melhorias contínuas (kaizen)." },
+
+  { type: "mc", difficulty: 3, topic: "ISO 56000",
+    question: "Na família ISO 5600x dedicada à inovação, qual norma fornece o vocabulário e os fundamentos?",
+    options: ["ISO 56000", "ISO 56001", "ISO 56002", "ISO 56003"],
+    correctIndex: 0,
+    explanation: "ISO 56000 contém o vocabulário e princípios fundamentais. ISO 56001 é certificável. ISO 56002 são as directrizes. ISO 56003 trata de parcerias de inovação." },
+
+  { type: "tf", difficulty: 3, topic: "Governança",
+    question: "COBIT é um framework de governança e gestão de TI desenvolvido pela ISACA.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. COBIT (Control Objectives for Information and Related Technologies) é o framework de governança de TI mais usado, mantido pela ISACA." },
+
+  { type: "mc", difficulty: 3, topic: "Banca",
+    question: "O acordo internacional que define requisitos mínimos de capital e liquidez para bancos é conhecido como:",
+    options: ["Bretton Woods", "Acordos de Basileia (Basel)", "Convenção de Genebra", "Tratado de Roma"],
+    correctIndex: 1,
+    explanation: "Os Acordos de Basileia (Basel I, II, III, e o evolutivo \"Basel IV\") são emitidos pelo BIS (Bank for International Settlements) e definem requisitos prudenciais para bancos." },
+
+  { type: "fill", difficulty: 3, topic: "Banca Central",
+    question: "A organização internacional sediada em Basileia que coordena bancos centrais é conhecida pela sigla _____ (em inglês).",
+    correctAnswers: ["bis"],
+    explanation: "BIS = Bank for International Settlements (em português: Banco de Pagamentos Internacionais). Sediado em Basileia, é o \"banco central dos bancos centrais\" e emite os Acordos de Basileia." },
+
+  { type: "mc", difficulty: 3, topic: "Auditoria",
+    question: "O modelo \"Three Lines of Defense\" (Três Linhas de Defesa) usado em gestão de risco coloca, na 3ª linha:",
+    options: ["A gestão operacional", "A função de gestão de risco e compliance", "A auditoria interna", "O conselho de administração"],
+    correctIndex: 2,
+    explanation: "1ª linha: gestão operacional (donos do risco). 2ª linha: funções de risco e compliance (supervisionam). 3ª linha: auditoria interna (assegura independentemente)." },
+
+  { type: "tf", difficulty: 3, topic: "Hyperledger",
+    question: "Hyperledger Fabric é uma plataforma blockchain de tipo público e sem permissões.",
+    correctAnswer: false,
+    explanation: "Falso. Hyperledger Fabric é uma plataforma de blockchain permissionada (permissioned), adequada para casos empresariais e regulatórios. É open-source, mantida pela Linux Foundation." },
+
+  { type: "mc", difficulty: 3, topic: "Smart Contracts",
+    question: "A linguagem de programação mais usada para escrever smart contracts em Ethereum é:",
+    options: ["Python", "Solidity", "Java", "Go"],
+    correctIndex: 1,
+    explanation: "Solidity é a linguagem dominante para smart contracts na EVM (Ethereum Virtual Machine). Inspirada em JavaScript, C++ e Python. Existem alternativas como Vyper." }
+];
+
+// ============ GAME LOGIC ============
+const state = {
+  currentIndex: 0,
+  questions: [],
+  correct: 0,
+  wrong: 0,
+  byDifficulty: { 1: { correct: 0, total: 0 }, 2: { correct: 0, total: 0 }, 3: { correct: 0, total: 0 } },
+  answered: false
+};
+
+const content = document.getElementById('content');
+const progress = document.getElementById('progress');
+
+function normalize(str) {
+  return String(str).toLowerCase().trim()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s]/g, '');
+}
+
+function startGame() {
+  // Sort by difficulty, shuffle within each difficulty
+  const easy = QUESTIONS.filter(q => q.difficulty === 1);
+  const med  = QUESTIONS.filter(q => q.difficulty === 2);
+  const hard = QUESTIONS.filter(q => q.difficulty === 3);
+  const shuffle = arr => arr.sort(() => Math.random() - 0.5);
+  state.questions = [...shuffle(easy), ...shuffle(med), ...shuffle(hard)];
+  state.currentIndex = 0;
+  state.correct = 0;
+  state.wrong = 0;
+  state.byDifficulty = { 1: { correct: 0, total: 0 }, 2: { correct: 0, total: 0 }, 3: { correct: 0, total: 0 } };
+  renderQuestion();
+}
+
+function renderStart() {
+  content.innerHTML = `
+    <div class="start-screen">
+      <h2>Pronto para começar?</h2>
+      <p>Testa o teu conhecimento para o concurso público do Banco de Moçambique.</p>
+      <div class="start-info">
+        <ul>
+          <li><strong>${QUESTIONS.length} perguntas</strong> em 3 níveis de dificuldade</li>
+          <li>Mistura de <strong>escolha múltipla, verdadeiro/falso e preencher o espaço</strong></li>
+          <li>Começas no nível <strong>Fundamentos</strong> e progrides até <strong>Avançado</strong></li>
+          <li>Quando erras, a resposta correcta é mostrada com explicação</li>
+          <li>No final, recebes uma avaliação detalhada</li>
+        </ul>
+      </div>
+      <button class="btn btn-big" onclick="startGame()">Iniciar Quiz</button>
+    </div>
+  `;
+  progress.style.width = '0%';
+}
+
+function renderQuestion() {
+  if (state.currentIndex >= state.questions.length) {
+    renderEnd();
+    return;
+  }
+  const q = state.questions[state.currentIndex];
+  state.answered = false;
+  const diffLabel = ['', 'Fundamentos', 'Intermédio', 'Avançado'][q.difficulty];
+  const typeLabel = { mc: 'Escolha Múltipla', tf: 'Verdadeiro ou Falso', fill: 'Preencha o Espaço' }[q.type];
+
+  let optionsHTML = '';
+  if (q.type === 'mc') {
+    const letters = ['A', 'B', 'C', 'D', 'E'];
+    optionsHTML = `<div class="options">${q.options.map((opt, i) =>
+      `<button class="option" data-index="${i}" onclick="answerMC(${i})">
+        <span class="letter">${letters[i]}</span>
+        <span>${opt}</span>
+      </button>`
+    ).join('')}</div>`;
+  } else if (q.type === 'tf') {
+    optionsHTML = `<div class="options">
+      <button class="option" data-tf="true" onclick="answerTF(true)">
+        <span class="letter">V</span><span>Verdadeiro</span>
+      </button>
+      <button class="option" data-tf="false" onclick="answerTF(false)">
+        <span class="letter">F</span><span>Falso</span>
+      </button>
+    </div>`;
+  } else if (q.type === 'fill') {
+    optionsHTML = `
+      <input type="text" class="fill-input" id="fillInput" placeholder="Escreva a sua resposta..." autocomplete="off"
+             onkeydown="if(event.key==='Enter') answerFill()">
+      <div class="fill-hint">Não te preocupes com acentos ou maiúsculas — são ignorados.</div>
+      <div class="actions">
+        <button class="btn" onclick="answerFill()">Submeter resposta</button>
+      </div>
+    `;
+  }
+
+  content.innerHTML = `
+    <div class="status">
+      <span>Pergunta <strong>${state.currentIndex + 1}</strong> de ${state.questions.length}</span>
+      <span class="difficulty-badge diff-${q.difficulty}">${diffLabel}</span>
+    </div>
+    <div class="topic-tag">${q.topic}</div>
+    <div class="question-type">${typeLabel}</div>
+    <div class="question-text">${q.question}</div>
+    ${optionsHTML}
+    <div id="feedback-area"></div>
+  `;
+
+  progress.style.width = ((state.currentIndex) / state.questions.length * 100) + '%';
+
+  if (q.type === 'fill') {
+    setTimeout(() => document.getElementById('fillInput').focus(), 50);
+  }
+}
+
+function answerMC(idx) {
+  if (state.answered) return;
+  state.answered = true;
+  const q = state.questions[state.currentIndex];
+  const correct = idx === q.correctIndex;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.disabled = true;
+    if (i === q.correctIndex) el.classList.add('correct');
+    if (i === idx && !correct) el.classList.add('wrong');
+  });
+  showFeedback(correct, q.options[q.correctIndex], q.explanation);
+}
+
+function answerTF(value) {
+  if (state.answered) return;
+  state.answered = true;
+  const q = state.questions[state.currentIndex];
+  const correct = value === q.correctAnswer;
+  document.querySelectorAll('.option').forEach(el => {
+    el.disabled = true;
+    const tf = el.dataset.tf === 'true';
+    if (tf === q.correctAnswer) el.classList.add('correct');
+    if (tf === value && !correct) el.classList.add('wrong');
+  });
+  showFeedback(correct, q.correctAnswer ? 'Verdadeiro' : 'Falso', q.explanation);
+}
+
+function answerFill() {
+  if (state.answered) return;
+  const input = document.getElementById('fillInput');
+  const userAnswer = normalize(input.value);
+  if (!userAnswer) return;
+  state.answered = true;
+  const q = state.questions[state.currentIndex];
+  const correct = q.correctAnswers.some(a => normalize(a) === userAnswer);
+  input.disabled = true;
+  if (correct) {
+    input.style.borderColor = 'var(--success)';
+    input.style.background = '#E8F5E9';
+  } else {
+    input.style.borderColor = 'var(--error)';
+    input.style.background = '#FFEBEE';
+  }
+  // Disable submit button
+  document.querySelectorAll('.actions .btn').forEach(b => b.disabled = true);
+  showFeedback(correct, q.correctAnswers[0], q.explanation);
+}
+
+function showFeedback(correct, correctAnswer, explanation) {
+  const q = state.questions[state.currentIndex];
+  state.byDifficulty[q.difficulty].total++;
+  if (correct) {
+    state.correct++;
+    state.byDifficulty[q.difficulty].correct++;
+  } else {
+    state.wrong++;
+  }
+  const fb = document.getElementById('feedback-area');
+  if (correct) {
+    fb.innerHTML = `
+      <div class="feedback correct">
+        <div class="feedback-title">✓ Correcto!</div>
+        <div class="actions" style="margin-top:12px;">
+          <button class="btn" onclick="nextQuestion()">Próxima pergunta →</button>
+        </div>
+      </div>
+    `;
+  } else {
+    fb.innerHTML = `
+      <div class="feedback wrong">
+        <div class="feedback-title">✗ Resposta incorrecta</div>
+        <div class="feedback-answer">Resposta correcta: <strong>${correctAnswer}</strong></div>
+        <div class="feedback-explanation">${explanation}</div>
+        <div class="actions" style="margin-top:14px;">
+          <button class="btn" onclick="nextQuestion()">Continuar →</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function nextQuestion() {
+  state.currentIndex++;
+  renderQuestion();
+}
+
+function renderEnd() {
+  const total = state.questions.length;
+  const pct = Math.round((state.correct / total) * 100);
+  const valores = Math.round((state.correct / total) * 20 * 10) / 10;
+
+  let color, title, recommendation;
+  if (pct >= 80) {
+    color = 'linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%)';
+    title = 'Excelente preparação!';
+    recommendation = "Estás muito bem preparado. Foca-te em refinar os tópicos onde ainda erraste e em treinar as respostas de desenvolvimento (Grupo IV). Continua a fazer simulações.";
+  } else if (pct >= 65) {
+    color = 'linear-gradient(135deg, #1F4E79 0%, #163E60 100%)';
+    title = 'Boa preparação — está no caminho!';
+    recommendation = "Estás na zona de candidatos apurados (≥10 valores na prova real). Identifica os tópicos com mais erros, revê as fichas dessas áreas e refaz o quiz dentro de alguns dias.";
+  } else if (pct >= 50) {
+    color = 'linear-gradient(135deg, #ED6C02 0%, #C25B00 100%)';
+    title = 'Preparação razoável — precisa de reforço';
+    recommendation = "Passas o corte mínimo (10/20), mas é arriscado. Concentra-te em estudar as áreas onde mais erraste — em especial as perguntas de dificuldade Fundamentos e Intermédio que falharam. Volta a testar daqui a uma semana.";
+  } else {
+    color = 'linear-gradient(135deg, #C62828 0%, #8B0000 100%)';
+    title = 'É preciso mais preparação';
+    recommendation = "Ainda há trabalho a fazer. Volta às fichas dos temas principais (ISO 56002, gestão de mudança, ágil, tecnologias emergentes), refaz o quiz dentro de 1-2 semanas. Não desistas — com método consegues melhorar muito.";
+  }
+
+  const dPct = (d) => state.byDifficulty[d].total > 0
+    ? Math.round(state.byDifficulty[d].correct / state.byDifficulty[d].total * 100)
+    : 0;
+
+  content.innerHTML = `
+    <div class="end-screen">
+      <h2>${title}</h2>
+      <div class="score-circle" style="background: ${color};">
+        <div class="pct">${pct}%</div>
+        <div class="label">${state.correct} / ${total}</div>
+      </div>
+      <div class="summary">Equivalente a aproximadamente <strong>${valores} valores</strong> numa prova de 20.</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="value">${dPct(1)}%</div>
+          <div class="label">Fundamentos</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">${dPct(2)}%</div>
+          <div class="label">Intermédio</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">${dPct(3)}%</div>
+          <div class="label">Avançado</div>
+        </div>
+      </div>
+      <div class="recommendation">
+        <strong>Recomendação</strong>
+        <p>${recommendation}</p>
+      </div>
+      <button class="btn btn-big" onclick="startGame()">Jogar de novo</button>
+    </div>
+  `;
+  progress.style.width = '100%';
+}
+
+// Initialize
+renderStart();
+</script>
+</body>
+</html>
