@@ -1032,7 +1032,9 @@ function showFeedback(correct, correctAnswer, explanation) {
     fb.innerHTML = `
       <div class="feedback correct">
         <div class="feedback-title">✓ Correcto!</div>
-        <div class="actions" style="margin-top:12px;">
+        <div class="feedback-answer">Resposta: <strong>${correctAnswer}</strong></div>
+        <div class="feedback-explanation">${explanation}</div>
+        <div class="actions" style="margin-top:14px;">
           <button class="btn" onclick="nextQuestion()">Próxima pergunta →</button>
         </div>
       </div>
