@@ -318,6 +318,75 @@
   .recommendation strong { color: var(--primary); display: block; margin-bottom: 6px; }
   .recommendation p { font-size: 14px; color: #444; line-height: 1.6; }
 
+  /* ===== Topics-to-improve section ===== */
+  .topics-section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 18px;
+    text-align: left;
+    margin: 20px 0;
+  }
+  .topics-section.all-correct {
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+    border-color: var(--success);
+    text-align: center;
+  }
+  .topics-section.all-correct p { font-size: 14px; color: #2E5E32; }
+  .topics-title {
+    font-size: 16px;
+    color: var(--primary);
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .topics-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .topics-list { display: flex; flex-direction: column; gap: 8px; }
+  .topic-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #F8FAFC;
+    border-radius: 8px;
+    gap: 10px;
+  }
+  .topic-info { flex: 1; min-width: 0; }
+  .topic-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .topic-stats {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .severity-tag {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .sev-critical { background: #FCE4E4; color: var(--error); }
+  .sev-warn { background: #FFF4E0; color: #B58000; }
+  .sev-mild { background: #E0F2E9; color: var(--success); }
+  .topics-more {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
   /* ===== TABLET AND UP (>= 600px) ===== */
   @media (min-width: 600px) {
     body {
@@ -856,7 +925,470 @@ const QUESTIONS = [
     question: "A linguagem de programação mais usada para escrever smart contracts em Ethereum é:",
     options: ["Python", "Solidity", "Java", "Go"],
     correctIndex: 1,
-    explanation: "Solidity é a linguagem dominante para smart contracts na EVM (Ethereum Virtual Machine). Inspirada em JavaScript, C++ e Python. Existem alternativas como Vyper." }
+    explanation: "Solidity é a linguagem dominante para smart contracts na EVM (Ethereum Virtual Machine). Inspirada em JavaScript, C++ e Python. Existem alternativas como Vyper." },
+
+  // ============================================
+  // CONJUNTO 2 — FUNDAMENTOS (+ 30 perguntas)
+  // ============================================
+  { type: "mc", difficulty: 1, topic: "Scrum",
+    question: "Qual é o terceiro papel oficial do Scrum, para além do Product Owner e do Scrum Master?",
+    options: ["Project Manager", "Developers (Dev Team)", "Tech Lead", "Stakeholder"],
+    correctIndex: 1,
+    explanation: "Os três papéis (responsabilidades) do Scrum são: Product Owner, Scrum Master e Developers (anteriormente \"Development Team\")." },
+
+  { type: "tf", difficulty: 1, topic: "ISO 9001",
+    question: "A norma ISO 9001 é uma norma de gestão da qualidade.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. ISO 9001 é a norma certificável mais usada no mundo para Sistemas de Gestão da Qualidade." },
+
+  { type: "fill", difficulty: 1, topic: "IA Generativa",
+    question: "Um modelo de IA que cria novos conteúdos (texto, imagens, código) chama-se IA _____.",
+    correctAnswers: ["generativa", "generative"],
+    explanation: "IA generativa cria conteúdo novo (ChatGPT, Gemini, DALL-E são exemplos). Distingue-se da IA \"analítica\" ou \"discriminativa\" que classifica ou prevê." },
+
+  { type: "mc", difficulty: 1, topic: "Banco de Moçambique",
+    question: "Em 2025, o Banco de Moçambique celebrou quantos anos de existência?",
+    options: ["25 anos", "40 anos", "50 anos", "75 anos"],
+    correctIndex: 2,
+    explanation: "Em 2025 o Banco de Moçambique celebrou o seu 50.º aniversário. Foi criado em 1975, após a independência nacional." },
+
+  { type: "tf", difficulty: 1, topic: "Cloud",
+    question: "Cloud privada é dedicada exclusivamente a uma única organização.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Cloud privada é dedicada a uma única organização (pode estar on-premises ou alojada por terceiros), oferecendo maior controlo e segurança." },
+
+  { type: "fill", difficulty: 1, topic: "Cibersegurança",
+    question: "O triângulo CIA da segurança da informação consiste em Confidencialidade, _____ e Disponibilidade.",
+    correctAnswers: ["integridade", "integrity"],
+    explanation: "CIA Triad: Confidentiality (Confidencialidade), Integrity (Integridade) e Availability (Disponibilidade). Pilares da segurança da informação." },
+
+  { type: "mc", difficulty: 1, topic: "KYC",
+    question: "No sector bancário, KYC significa:",
+    options: ["Keep Your Customer", "Know Your Customer", "Keep Yearly Compliance", "Key Yield Component"],
+    correctIndex: 1,
+    explanation: "KYC = Know Your Customer. Processo obrigatório de identificação e verificação de clientes, fundamental no combate ao branqueamento de capitais." },
+
+  { type: "tf", difficulty: 1, topic: "Scrum",
+    question: "Sprint Planning, Sprint Review e Sprint Retrospective são três eventos distintos no Scrum.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Planning (início, planear o sprint), Review (fim, inspeccionar o incremento) e Retrospective (após Review, melhorar o processo) são eventos distintos." },
+
+  { type: "fill", difficulty: 1, topic: "IA",
+    question: "A sigla IA significa _____ Artificial.",
+    correctAnswers: ["inteligencia", "inteligência", "intelligence"],
+    explanation: "IA = Inteligência Artificial (Artificial Intelligence em inglês, AI)." },
+
+  { type: "mc", difficulty: 1, topic: "Cloud",
+    question: "No modelo IaaS, o cliente é principalmente responsável por:",
+    options: ["Apenas pelos dados", "Sistema operativo, aplicações e dados", "Hardware físico", "Manutenção do datacenter"],
+    correctIndex: 1,
+    explanation: "Em IaaS, o fornecedor gere hardware, virtualização e rede; o cliente gere SO, runtime, aplicações e dados — modelo de \"responsabilidade partilhada\"." },
+
+  { type: "tf", difficulty: 1, topic: "Blockchain",
+    question: "Os blocos numa blockchain estão ligados entre si através de funções hash criptográficas.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Cada bloco contém o hash do bloco anterior, criando uma cadeia. Alterar um bloco invalida todos os seguintes." },
+
+  { type: "fill", difficulty: 1, topic: "Manifesto Ágil",
+    question: "O Manifesto Ágil para o Desenvolvimento de Software foi publicado em _____.",
+    correctAnswers: ["2001"],
+    explanation: "O Manifesto Ágil foi publicado em Fevereiro de 2001, em Snowbird (Utah, EUA), por 17 signatários incluindo Sutherland, Schwaber, Beck e Cunningham." },
+
+  { type: "mc", difficulty: 1, topic: "Open Banking",
+    question: "A directiva PSD2 é a regulamentação europeia que:",
+    options: ["Cria as criptomoedas no espaço europeu", "Estabelece o quadro regulatório do Open Banking na Europa", "Proíbe o uso de cloud na banca", "Define os requisitos mínimos de capital bancário"],
+    correctIndex: 1,
+    explanation: "PSD2 (Payment Services Directive 2) estabelece o quadro do Open Banking europeu, obrigando bancos a abrir dados de clientes (com consentimento) via APIs a TPPs." },
+
+  { type: "tf", difficulty: 1, topic: "Inovação Aberta",
+    question: "A inovação aberta (open innovation) envolve usar fluxos internos e externos de conhecimento e tecnologia.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Conceito de Henry Chesbrough — empresas devem combinar ideias internas e externas (parceiros, universidades, startups) para acelerar inovação." },
+
+  { type: "fill", difficulty: 1, topic: "AML",
+    question: "A sigla AML significa Anti _____ Laundering.",
+    correctAnswers: ["money"],
+    explanation: "AML = Anti-Money Laundering (Combate ao Branqueamento de Capitais). Complementa-se com CFT = Counter-Financing of Terrorism." },
+
+  { type: "mc", difficulty: 1, topic: "Machine Learning",
+    question: "Um exemplo clássico de aprendizagem por reforço (reinforcement learning) é:",
+    options: ["Filtrar emails de spam", "Recomendar produtos com base no histórico", "AlphaGo aprender a jogar Go através de tentativa e erro com recompensas", "Agrupar clientes por perfil"],
+    correctIndex: 2,
+    explanation: "Reinforcement learning aprende por interacção com um ambiente, recebendo recompensas/penalidades. AlphaGo é o exemplo emblemático. Os outros são supervisionada (spam, recomendação) e não-supervisionada (clustering)." },
+
+  { type: "tf", difficulty: 1, topic: "DevOps",
+    question: "DevOps procura aproximar e integrar as equipas de desenvolvimento (Dev) e operações (Ops).",
+    correctAnswer: true,
+    explanation: "Verdadeiro. DevOps quebra a barreira entre Dev e Ops, promovendo colaboração, automação, CI/CD e melhoria contínua na entrega de software." },
+
+  { type: "fill", difficulty: 1, topic: "Smart Contracts",
+    question: "A linguagem de programação dominante para escrever smart contracts em Ethereum é _____.",
+    correctAnswers: ["solidity"],
+    explanation: "Solidity é a linguagem mais usada. Inspirada em JavaScript, C++ e Python, é executada na EVM (Ethereum Virtual Machine). Alternativa: Vyper." },
+
+  { type: "mc", difficulty: 1, topic: "Cibersegurança",
+    question: "MFA significa:",
+    options: ["Multi-Factor Authentication", "Maximum Firewall Access", "Mobile First Architecture", "Multi-Function Application"],
+    correctIndex: 0,
+    explanation: "MFA = Multi-Factor Authentication. Autenticação que combina dois ou mais factores: algo que sabes (senha), algo que tens (token, telemóvel), algo que és (biometria)." },
+
+  { type: "tf", difficulty: 1, topic: "Big Data",
+    question: "Big Data refere-se apenas ao volume dos dados.",
+    correctAnswer: false,
+    explanation: "Falso. Big Data caracteriza-se pelos 5 Vs: Volume, Velocidade, Variedade, Veracidade e Valor — não apenas pela dimensão." },
+
+  { type: "fill", difficulty: 1, topic: "Cloud",
+    question: "A sigla SaaS significa _____ as a Service.",
+    correctAnswers: ["software"],
+    explanation: "SaaS = Software as a Service. O fornecedor entrega a aplicação pronta a usar (ex.: Gmail, Microsoft 365, Salesforce)." },
+
+  { type: "mc", difficulty: 1, topic: "ISO",
+    question: "A norma ISO 14001 trata de:",
+    options: ["Gestão da qualidade", "Gestão da inovação", "Gestão ambiental", "Gestão da segurança da informação"],
+    correctIndex: 2,
+    explanation: "ISO 14001 = Sistemas de Gestão Ambiental. Referência: ISO 9001 = qualidade; ISO 27001 = segurança; ISO 56002 = inovação." },
+
+  { type: "tf", difficulty: 1, topic: "Scrum",
+    question: "Um sprint do Scrum pode ter uma duração mínima de uma semana.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Sprints duram tipicamente entre 1 a 4 semanas (máximo 1 mês). Sprints curtos reduzem risco e aumentam feedback." },
+
+  { type: "fill", difficulty: 1, topic: "Lean Startup",
+    question: "No Lean Startup, o ciclo central de aprendizagem chama-se _____-Measure-Learn.",
+    correctAnswers: ["build", "construir"],
+    explanation: "Build-Measure-Learn é o ciclo do Lean Startup (Eric Ries): construir um MVP, medir o impacto, aprender com utilizadores e iterar." },
+
+  { type: "mc", difficulty: 1, topic: "RegTech",
+    question: "Um exemplo concreto de aplicação RegTech num banco é:",
+    options: ["Um sistema de marketing personalizado", "Um sistema automático de reporte regulatório ao supervisor", "Um aplicativo de mobile banking", "Um chatbot de atendimento ao cliente"],
+    correctIndex: 1,
+    explanation: "RegTech soluciona problemas regulatórios das instituições reguladas: reporte automatizado, monitorização de transacções, KYC digital, screening de listas de sanções." },
+
+  { type: "tf", difficulty: 1, topic: "Blockchain",
+    question: "Uma vez registada e confirmada numa blockchain, uma transacção é muito difícil de alterar.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. A imutabilidade (immutability) é uma propriedade fundamental da blockchain — alterar uma transacção exigiria refazer todos os blocos seguintes e ter maioria computacional." },
+
+  { type: "fill", difficulty: 1, topic: "Banca Central",
+    question: "Em Moçambique, a entidade responsável pela política monetária é o Banco de _____.",
+    correctAnswers: ["mocambique", "moçambique", "mozambique"],
+    explanation: "O Banco de Moçambique (BM) é o banco central da República de Moçambique e a autoridade responsável pela política monetária e cambial." },
+
+  { type: "mc", difficulty: 1, topic: "Cibersegurança",
+    question: "Phishing é principalmente:",
+    options: ["Um tipo de software antivírus", "Engenharia social via e-mails/mensagens fraudulentas para obter credenciais", "Uma técnica de criptografia", "Um protocolo de rede"],
+    correctIndex: 1,
+    explanation: "Phishing é engenharia social: mensagens fraudulentas (e-mail, SMS, chamadas) que se fazem passar por entidades legítimas para obter credenciais ou induzir acções maliciosas." },
+
+  { type: "tf", difficulty: 1, topic: "Open Banking",
+    question: "O Open Banking requer consentimento explícito do cliente para partilha de dados.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. O consentimento explícito, informado e revogável do cliente é princípio fundamental do Open Banking." },
+
+  { type: "fill", difficulty: 1, topic: "Scrum",
+    question: "O artefacto do Scrum que contém todo o trabalho conhecido para o produto chama-se Product _____.",
+    correctAnswers: ["backlog"],
+    explanation: "Product Backlog: lista ordenada de tudo o que o produto pode vir a precisar (features, melhorias, correcções). Único responsável: Product Owner." },
+
+  // ============================================
+  // CONJUNTO 2 — INTERMÉDIO (+ 30 perguntas)
+  // ============================================
+  { type: "mc", difficulty: 2, topic: "Scrum",
+    question: "Os três pilares do empirismo no Scrum são:",
+    options: ["Planeamento, Execução e Controlo", "Transparência, Inspecção e Adaptação", "Visão, Estratégia e Táctica", "Pessoas, Processos e Ferramentas"],
+    correctIndex: 1,
+    explanation: "Os 3 pilares do empirismo do Scrum: Transparência (todos vêem o que importa), Inspecção (verificar regularmente) e Adaptação (ajustar quando necessário)." },
+
+  { type: "tf", difficulty: 2, topic: "Kotter",
+    question: "O modelo de Kotter foi influenciado pelo trabalho de Kurt Lewin.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Kotter desenvolveu o seu modelo dos 8 passos partindo dos fundamentos teóricos de Lewin (descongelar-mudar-recongelar)." },
+
+  { type: "fill", difficulty: 2, topic: "Scrum",
+    question: "Os cinco valores do Scrum são: Comprometimento, Foco, Abertura, Respeito e _____.",
+    correctAnswers: ["coragem", "courage"],
+    explanation: "Os 5 valores do Scrum (Scrum Guide): Comprometimento, Foco, Abertura, Respeito e Coragem. São fundamentais para a confiança e desempenho da equipa." },
+
+  { type: "mc", difficulty: 2, topic: "Machine Learning",
+    question: "Overfitting em Machine Learning ocorre quando:",
+    options: ["O modelo é demasiado simples para o problema", "O modelo aprende ruído e padrões específicos dos dados de treino, perdendo capacidade de generalizar", "Há demasiados dados de treino", "O algoritmo é incorrecto"],
+    correctIndex: 1,
+    explanation: "Overfitting: modelo memoriza os dados de treino (inclusive o ruído) e tem fraco desempenho em dados novos. Sintoma: alta performance no treino, baixa em validação/teste." },
+
+  { type: "tf", difficulty: 2, topic: "Blockchain",
+    question: "O Bitcoin usa Proof of Work, enquanto o Ethereum migrou para Proof of Stake.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. O Ethereum migrou de PoW para PoS em Setembro de 2022 (\"The Merge\"), reduzindo drasticamente o consumo energético." },
+
+  { type: "fill", difficulty: 2, topic: "Machine Learning",
+    question: "Uma _____ de Confusão é uma tabela usada para avaliar modelos de classificação (verdadeiros/falsos positivos/negativos).",
+    correctAnswers: ["matriz"],
+    explanation: "Matriz de Confusão: tabela 2x2 (em classificação binária) com VP, VN, FP, FN. Base para calcular accuracy, precision, recall e F1-score." },
+
+  { type: "mc", difficulty: 2, topic: "Cibersegurança",
+    question: "Zero Trust é um modelo de segurança baseado no princípio:",
+    options: ["\"Confia em todos, mas verifica\"", "\"Never trust, always verify\" — nunca confiar, verificar sempre, mesmo dentro da rede", "Confiar apenas em dispositivos da empresa", "Eliminar todas as políticas de acesso"],
+    correctIndex: 1,
+    explanation: "Zero Trust assume que nenhum utilizador, dispositivo ou rede é confiável por defeito. Verificação contínua, princípio do menor privilégio, microsegmentação." },
+
+  { type: "tf", difficulty: 2, topic: "ISO 56000",
+    question: "A ISO 56003 trata especificamente de parcerias de inovação.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. ISO 56003 fornece orientações para gestão de ferramentas e métodos de parcerias de inovação." },
+
+  { type: "fill", difficulty: 2, topic: "Basileia",
+    question: "O acordo internacional emitido pelo BIS que estabelece requisitos prudenciais para bancos chama-se Acordo de _____.",
+    correctAnswers: ["basileia", "basel"],
+    explanation: "Acordos de Basileia (Basel I, II, III, e o evolutivo \"IV\") definem requisitos de capital, liquidez e gestão de risco para o sector bancário internacional." },
+
+  { type: "mc", difficulty: 2, topic: "Open Banking",
+    question: "Sob a PSD2, um TPP que apenas agrega informação de contas é classificado como:",
+    options: ["AISP (Account Information Service Provider)", "PISP (Payment Initiation Service Provider)", "CBPII (Card-Based Payment Instrument Issuer)", "PSP tradicional"],
+    correctIndex: 0,
+    explanation: "AISP só lê dados; PISP inicia pagamentos; CBPII emite instrumentos de pagamento baseados em cartões usando contas de outros bancos." },
+
+  { type: "tf", difficulty: 2, topic: "Scrum",
+    question: "A Definition of Done (DoD) no Scrum é da responsabilidade do Scrum Master.",
+    correctAnswer: false,
+    explanation: "Falso. A Definition of Done é criada e mantida pelos Developers (com input do Product Owner). É uma compreensão partilhada do que torna um incremento \"feito\"." },
+
+  { type: "fill", difficulty: 2, topic: "Lean Startup",
+    question: "Quando uma startup decide alterar fundamentalmente a sua estratégia após aprender com o mercado, isso chama-se _____.",
+    correctAnswers: ["pivot"],
+    explanation: "Pivot: mudança substantiva de estratégia (mas mantendo a aprendizagem). Persevere (manter) é a alternativa quando há tracção. Conceito central do Lean Startup." },
+
+  { type: "mc", difficulty: 2, topic: "Machine Learning",
+    question: "F1-score é uma métrica de avaliação que:",
+    options: ["Mede apenas a accuracy total", "Combina precision e recall através de uma média harmónica", "Calcula o tempo de execução", "Mede a complexidade do modelo"],
+    correctIndex: 1,
+    explanation: "F1 = 2 × (Precision × Recall) / (Precision + Recall). Média harmónica balanceada — útil quando há desequilíbrio entre classes (ex.: detecção de fraude)." },
+
+  { type: "tf", difficulty: 2, topic: "Big Data",
+    question: "Hadoop e Spark são frameworks usados em projectos de Big Data.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Hadoop (incl. HDFS e MapReduce) e Apache Spark são frameworks open-source para processamento distribuído de grandes volumes de dados." },
+
+  { type: "fill", difficulty: 2, topic: "Smart Contracts",
+    question: "Smart contracts são considerados _____ após o seu deployment, o que torna difícil corrigir bugs.",
+    correctAnswers: ["imutaveis", "imutáveis", "immutable"],
+    explanation: "Imutabilidade dos smart contracts é vantagem (confiança) mas também risco (vulnerabilidades não se corrigem no contrato original; exige novo deploy e migração)." },
+
+  { type: "mc", difficulty: 2, topic: "ISO 27000",
+    question: "Qual é a diferença entre ISO 27001 e ISO 27002?",
+    options: ["São exactamente a mesma norma com nomes diferentes", "ISO 27001 contém requisitos certificáveis para um SGSI; ISO 27002 é um código de boas práticas e controlos", "ISO 27001 é para empresas pequenas e ISO 27002 para grandes", "ISO 27002 substituiu a ISO 27001"],
+    correctIndex: 1,
+    explanation: "ISO 27001: requisitos certificáveis para Sistemas de Gestão da Segurança da Informação. ISO 27002: código de prática com controlos detalhados. Complementam-se." },
+
+  { type: "tf", difficulty: 2, topic: "Cibersegurança",
+    question: "ISO 27001 e ISO 27002 são exactamente a mesma norma.",
+    correctAnswer: false,
+    explanation: "Falso. ISO 27001 contém requisitos certificáveis para um SGSI. ISO 27002 é um código de práticas (controlos detalhados) que apoia a implementação. São complementares." },
+
+  { type: "fill", difficulty: 2, topic: "AML/CFT",
+    question: "FATF, organismo internacional contra branqueamento de capitais, significa Financial _____ Task Force.",
+    correctAnswers: ["action"],
+    explanation: "FATF = Financial Action Task Force (em português: GAFI — Grupo de Acção Financeira). Define padrões internacionais de combate ao branqueamento e financiamento do terrorismo." },
+
+  { type: "mc", difficulty: 2, topic: "IA",
+    question: "Uma GAN (Generative Adversarial Network) é uma arquitectura de redes neuronais que:",
+    options: ["Usa uma única rede neuronal profunda", "Combina duas redes neuronais em competição: gerador vs discriminador", "É apenas para classificação de imagens", "Funciona apenas com dados rotulados"],
+    correctIndex: 1,
+    explanation: "GAN (Ian Goodfellow, 2014): gerador cria amostras falsas, discriminador tenta distinguir reais de falsas. Aprendem em competição. Base de muitos sistemas de geração de imagens." },
+
+  { type: "tf", difficulty: 2, topic: "Cloud",
+    question: "Edge computing processa dados próximo da fonte de geração, reduzindo latência.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Em vez de enviar todos os dados para a cloud central, edge processa localmente — útil para IoT, veículos autónomos, fábricas conectadas." },
+
+  { type: "fill", difficulty: 2, topic: "Scrum",
+    question: "O artefacto do Scrum que contém o trabalho seleccionado para o sprint actual chama-se Sprint _____.",
+    correctAnswers: ["backlog"],
+    explanation: "Os 3 artefactos: Product Backlog (todo o produto), Sprint Backlog (sprint actual) e Incremento (resultado utilizável produzido)." },
+
+  { type: "mc", difficulty: 2, topic: "Basileia III",
+    question: "Basel III introduziu, entre outras coisas, requisitos de:",
+    options: ["Liquidez (LCR e NSFR) e capital adicional (CET1)", "Apenas requisitos mínimos de pessoal", "Auditoria externa obrigatória", "Limite de salários executivos"],
+    correctIndex: 0,
+    explanation: "Basel III (resposta à crise de 2008): LCR (Liquidity Coverage Ratio), NSFR (Net Stable Funding Ratio), CET1 (Common Equity Tier 1) reforçado, leverage ratio, buffers de capital." },
+
+  { type: "tf", difficulty: 2, topic: "Inovação",
+    question: "Inovação fechada (closed innovation) é o paradigma tradicional em que toda a I&D é interna.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Closed innovation: tudo se faz dentro da organização. Chesbrough propôs open innovation como evolução: combinar fluxos internos e externos." },
+
+  { type: "fill", difficulty: 2, topic: "Blockchain",
+    question: "Uma _____ digital é um software ou dispositivo que guarda chaves privadas e permite assinar transacções em blockchain.",
+    correctAnswers: ["carteira", "wallet"],
+    explanation: "Carteira (wallet) gere chaves criptográficas. Pode ser \"hot\" (online, conveniente, menos segura) ou \"cold\" (offline, hardware wallets, mais segura)." },
+
+  { type: "mc", difficulty: 2, topic: "Risco",
+    question: "Os três tipos de defesa no modelo Three Lines of Defense são, pela ordem:",
+    options: ["Compliance, Auditoria, Conselho", "Gestão operacional, Gestão de risco/compliance, Auditoria interna", "Conselho, CEO, CFO", "TI, Operações, Vendas"],
+    correctIndex: 1,
+    explanation: "1ª linha: gestão operacional (donos do risco no dia-a-dia). 2ª linha: funções de risco e compliance (supervisão). 3ª linha: auditoria interna (segurança independente)." },
+
+  { type: "tf", difficulty: 2, topic: "IA",
+    question: "Todo o chatbot é necessariamente alimentado por inteligência artificial generativa.",
+    correctAnswer: false,
+    explanation: "Falso. Existem chatbots baseados em regras (decision trees, scripts) sem qualquer IA. A IA generativa (LLMs) é apenas uma das tecnologias possíveis." },
+
+  { type: "fill", difficulty: 2, topic: "Kotter",
+    question: "No modelo de Kotter, formar uma _____ orientadora (guiding coalition) é o passo 2.",
+    correctAnswers: ["coligacao", "coligação", "coalizão", "coalizao"],
+    explanation: "Passo 2 de Kotter: formar uma coligação orientadora (grupo com poder, credibilidade e energia para liderar a mudança)." },
+
+  { type: "mc", difficulty: 2, topic: "Tecnologia",
+    question: "A tecnologia 5G, comparada com o 4G, oferece principalmente:",
+    options: ["Apenas mais velocidade", "Maior velocidade, menor latência e maior densidade de dispositivos conectados", "Apenas suporte para mais utilizadores", "Acesso obrigatório a satélite"],
+    correctIndex: 1,
+    explanation: "5G traz banda larga aumentada, latência ultra-baixa (críticas para IoT, carros autónomos, cirurgia remota) e suporte massivo a dispositivos (até 1 milhão por km²)." },
+
+  { type: "tf", difficulty: 2, topic: "Machine Learning",
+    question: "A aprendizagem por reforço (reinforcement learning) usa um sistema de recompensas e penalidades.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. RL aprende por interacção com o ambiente: acções resultam em estados e recompensas; o agente aprende a política que maximiza a recompensa cumulativa." },
+
+  { type: "fill", difficulty: 2, topic: "Cibersegurança",
+    question: "DDoS é um ataque de _____ de serviço distribuído.",
+    correctAnswers: ["negacao", "negação"],
+    explanation: "DDoS = Distributed Denial of Service. Ataque coordenado de múltiplas fontes que sobrecarrega um serviço, tornando-o indisponível para utilizadores legítimos." },
+
+  // ============================================
+  // CONJUNTO 2 — AVANÇADO (+ 25 perguntas)
+  // ============================================
+  { type: "mc", difficulty: 3, topic: "Scrum",
+    question: "Sobre a Definition of Done (DoD), é correcto afirmar que:",
+    options: ["É definida pelo Product Owner", "É definida pelos Developers e aplica-se a cada item do incremento", "É opcional no Scrum", "Muda em cada sprint"],
+    correctIndex: 1,
+    explanation: "A DoD é definida pelos Developers (com input do PO) e aplica-se a cada Product Backlog Item para garantir transparência sobre o que é um incremento utilizável." },
+
+  { type: "tf", difficulty: 3, topic: "IA",
+    question: "A arquitectura Transformer, base dos LLMs modernos, foi introduzida no paper \"Attention Is All You Need\" em 2017.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. O paper da Google (Vaswani et al., 2017) introduziu o mecanismo de self-attention, base de GPT, BERT, Gemini e praticamente todos os LLMs actuais." },
+
+  { type: "fill", difficulty: 3, topic: "Banca Internacional",
+    question: "O sistema monetário internacional do pós-guerra (criação do FMI e BIRD) foi estabelecido no acordo de _____ Woods.",
+    correctAnswers: ["bretton"],
+    explanation: "Acordo de Bretton Woods (1944), no New Hampshire (EUA). Criou o FMI e o Banco Mundial. O sistema padrão-dólar-ouro durou até 1971." },
+
+  { type: "mc", difficulty: 3, topic: "Open Banking",
+    question: "FAPI (Financial-grade API) é:",
+    options: ["Uma instituição reguladora", "Uma especificação de segurança elevada para APIs financeiras", "Um tipo de criptomoeda", "Um padrão de auditoria"],
+    correctIndex: 1,
+    explanation: "FAPI define perfis de segurança elevada baseados em OAuth 2.0 e OpenID Connect, para APIs em contextos financeiros sensíveis." },
+
+  { type: "tf", difficulty: 3, topic: "Criptografia",
+    question: "O algoritmo de Grover é a maior ameaça quântica à criptografia assimétrica (RSA, ECC).",
+    correctAnswer: false,
+    explanation: "Falso. É o algoritmo de Shor que ameaça a criptografia assimétrica. Grover ameaça a simétrica (mas só duplica o trabalho, então AES-256 permanece seguro)." },
+
+  { type: "fill", difficulty: 3, topic: "Machine Learning",
+    question: "A separação clássica de um dataset em ML é em três conjuntos: treino, validação e _____.",
+    correctAnswers: ["teste", "test"],
+    explanation: "Treino (afinar pesos), validação (afinar hiperparâmetros, escolher modelo), teste (avaliação final imparcial). Divisão típica: 70/15/15 ou 80/10/10." },
+
+  { type: "mc", difficulty: 3, topic: "Blockchain",
+    question: "Numa árvore de Merkle (Merkle tree), o que está armazenado nos nós internos?",
+    options: ["Cópias completas das transacções", "Hashes dos seus nós filhos", "Apenas timestamps", "Endereços dos utilizadores"],
+    correctIndex: 1,
+    explanation: "Árvore de Merkle: folhas são hashes de transacções; cada nó interno é o hash dos filhos. Permite verificar inclusão de uma transacção em O(log n)." },
+
+  { type: "tf", difficulty: 3, topic: "ISO 31000",
+    question: "A ISO 31000 fornece directrizes sobre gestão de risco aplicáveis a qualquer organização, independentemente do sector.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. ISO 31000 é uma norma genérica de gestão de risco — princípios, framework e processos aplicáveis a qualquer tipo de risco e organização." },
+
+  { type: "fill", difficulty: 3, topic: "Ethereum",
+    question: "Em Ethereum, o custo computacional de executar transacções e smart contracts é medido numa unidade chamada _____.",
+    correctAnswers: ["gas"],
+    explanation: "Gas mede o esforço computacional. Gas × gas price = custo total em ETH. Mecanismo evita loops infinitos e cobra pelo uso dos recursos da rede." },
+
+  { type: "mc", difficulty: 3, topic: "Inovação",
+    question: "Uma \"organização ambidestra\" (conceito de March, Tushman e O'Reilly) é aquela que consegue:",
+    options: ["Operar em dois países simultaneamente", "Equilibrar exploração de novas oportunidades (exploration) e exploração das capacidades actuais (exploitation)", "Ter dois CEOs", "Ter equipas remotas e presenciais"],
+    correctIndex: 1,
+    explanation: "Ambidestria organizacional: balancear inovação radical/exploratória e eficiência/exploração do core business. Muito difícil — tipicamente exige estruturas separadas." },
+
+  { type: "tf", difficulty: 3, topic: "IA",
+    question: "Os LLMs (Large Language Models) podem produzir respostas factualmente incorrectas com aparente confiança — fenómeno conhecido como \"alucinação\".",
+    correctAnswer: true,
+    explanation: "Verdadeiro. As alucinações são uma limitação fundamental dos LLMs actuais, com implicações sérias para uso em contextos críticos (medicina, banca, direito)." },
+
+  { type: "fill", difficulty: 3, topic: "Basileia",
+    question: "Nos Acordos de Basileia, a sigla CET1 significa Common Equity Tier _____.",
+    correctAnswers: ["1", "one", "um"],
+    explanation: "CET1 = Common Equity Tier 1: capital próprio de máxima qualidade (acções ordinárias + reservas). Mínimo regulamentar de 4,5% dos RWA + buffer de conservação." },
+
+  { type: "mc", difficulty: 3, topic: "Cibersegurança",
+    question: "OWASP Top 10 é:",
+    options: ["Uma lista de servidores web mais usados", "Uma lista, periodicamente actualizada, dos 10 riscos de segurança mais críticos em aplicações web", "Os 10 melhores antivírus do ano", "Os 10 países mais seguros online"],
+    correctIndex: 1,
+    explanation: "OWASP (Open Web Application Security Project) publica o Top 10 — riscos como injection, broken access control, cryptographic failures. Referência mundial em AppSec." },
+
+  { type: "tf", difficulty: 3, topic: "Cloud",
+    question: "Em arquitectura serverless (FaaS), o developer ainda é responsável por gerir o sistema operativo do servidor.",
+    correctAnswer: false,
+    explanation: "Falso. Em FaaS (Function as a Service), o fornecedor abstrai completamente a infraestrutura — o developer apenas escreve funções que correm sob demanda." },
+
+  { type: "fill", difficulty: 3, topic: "PMBOK",
+    question: "No PMBOK, a sequência mais longa de actividades que determina a duração mínima do projecto chama-se Caminho _____.",
+    correctAnswers: ["critico", "crítico"],
+    explanation: "Caminho Crítico (Critical Path Method, CPM): cadeia mais longa de actividades dependentes. Atrasos nestas actividades atrasam o projecto. Identifica onde focar atenção." },
+
+  { type: "mc", difficulty: 3, topic: "AML/CFT",
+    question: "O organismo internacional que estabelece padrões contra branqueamento de capitais é:",
+    options: ["FMI", "Banco Mundial", "FATF (em português: GAFI)", "OECD"],
+    correctIndex: 2,
+    explanation: "FATF (Financial Action Task Force) / GAFI (Grupo de Acção Financeira). Criado em 1989 no G7, emite as 40 Recomendações sobre AML/CFT seguidas globalmente." },
+
+  { type: "tf", difficulty: 3, topic: "IA",
+    question: "Em redes neuronais profundas, a função de activação ReLU é hoje mais comum nas camadas escondidas do que a sigmoid.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. ReLU (Rectified Linear Unit) é simples, evita o problema de \"vanishing gradient\" e acelera o treino. Sigmoid permanece útil em saídas para classificação binária." },
+
+  { type: "fill", difficulty: 3, topic: "Open Banking",
+    question: "A directiva europeia que obriga a Forte Autenticação do Cliente (SCA) em pagamentos online é a directiva _____ (sigla).",
+    correctAnswers: ["psd2"],
+    explanation: "PSD2 (Payment Services Directive 2): exige SCA — autenticação com pelo menos 2 factores de naturezas distintas (conhecimento, posse, biometria)." },
+
+  { type: "mc", difficulty: 3, topic: "Machine Learning",
+    question: "Em classificação binária, Precision e Recall calculam-se respectivamente como:",
+    options: ["TP/(TP+TN) e TP/(TP+FP)", "TP/(TP+FP) e TP/(TP+FN)", "TN/(TN+FN) e TP/(TP+TN)", "TP/N e FP/N"],
+    correctIndex: 1,
+    explanation: "Precision = TP/(TP+FP) — dos previstos positivos, quantos são realmente positivos. Recall = TP/(TP+FN) — dos realmente positivos, quantos foram detectados." },
+
+  { type: "tf", difficulty: 3, topic: "Blockchain",
+    question: "Num ataque de 51% a uma blockchain proof-of-work, o atacante controla a maioria do poder computacional (hashrate) da rede.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. Com >50% do hashrate, o atacante pode reverter transacções recentes (double-spend), censurar transacções e impedir confirmações. Quase impossível em redes grandes (Bitcoin)." },
+
+  { type: "fill", difficulty: 3, topic: "Gestão de Risco",
+    question: "Na fase de tratamento de risco (ISO 31000), as quatro estratégias clássicas são: evitar, transferir, mitigar e _____.",
+    correctAnswers: ["aceitar", "accept"],
+    explanation: "4 T's: Tolerate (aceitar), Treat (mitigar), Transfer (transferir, ex.: seguro), Terminate (evitar/eliminar). Escolha depende do apetite ao risco." },
+
+  { type: "mc", difficulty: 3, topic: "Machine Learning",
+    question: "Um sintoma clássico de overfitting num modelo de ML é:",
+    options: ["Performance baixa em treino e em teste", "Performance alta em treino mas significativamente baixa em validação/teste", "O modelo demora muito a treinar", "O modelo é demasiado simples"],
+    correctIndex: 1,
+    explanation: "Diferença grande entre desempenho em treino (excelente) e em validação/teste (fraco) indica overfitting. Mitigações: regularização, mais dados, dropout, early stopping, validação cruzada." },
+
+  { type: "tf", difficulty: 3, topic: "Banco de Moçambique",
+    question: "O Banco de Moçambique foi criado em 1975, após a independência nacional.",
+    correctAnswer: true,
+    explanation: "Verdadeiro. O Banco de Moçambique foi criado em 17 de Maio de 1975, assumindo as funções de banco central da República Popular de Moçambique recém-independente." },
+
+  { type: "fill", difficulty: 3, topic: "Cibersegurança",
+    question: "A norma ISO 27001 é a norma _____ para Sistemas de Gestão da Segurança da Informação.",
+    correctAnswers: ["certificavel", "certificável"],
+    explanation: "ISO 27001 é certificável — organizações podem obter certificação após auditoria. ISO 27002 (controlos) e ISO 27005 (gestão de risco em SI) complementam." },
+
+  { type: "mc", difficulty: 3, topic: "Blockchain Empresarial",
+    question: "Hyperledger Fabric, R3 Corda e Quorum são exemplos de:",
+    options: ["Criptomoedas públicas", "Plataformas blockchain permissionadas (enterprise)", "Exchanges de criptomoedas", "Carteiras digitais"],
+    correctIndex: 1,
+    explanation: "Plataformas DLT/blockchain permissionadas concebidas para uso empresarial e regulatório — privacidade, controlo de participantes, performance superior a blockchains públicas." }
 ];
 
 // ============ GAME LOGIC ============
@@ -866,6 +1398,7 @@ const state = {
   correct: 0,
   wrong: 0,
   byDifficulty: { 1: { correct: 0, total: 0 }, 2: { correct: 0, total: 0 }, 3: { correct: 0, total: 0 } },
+  byTopic: {}, // topic -> { correct, total }
   answered: false
 };
 
@@ -889,6 +1422,7 @@ function startGame() {
   state.correct = 0;
   state.wrong = 0;
   state.byDifficulty = { 1: { correct: 0, total: 0 }, 2: { correct: 0, total: 0 }, 3: { correct: 0, total: 0 } };
+  state.byTopic = {};
   renderQuestion();
 }
 
@@ -1021,9 +1555,12 @@ function answerFill() {
 function showFeedback(correct, correctAnswer, explanation) {
   const q = state.questions[state.currentIndex];
   state.byDifficulty[q.difficulty].total++;
+  if (!state.byTopic[q.topic]) state.byTopic[q.topic] = { correct: 0, total: 0 };
+  state.byTopic[q.topic].total++;
   if (correct) {
     state.correct++;
     state.byDifficulty[q.difficulty].correct++;
+    state.byTopic[q.topic].correct++;
   } else {
     state.wrong++;
   }
@@ -1086,6 +1623,57 @@ function renderEnd() {
     ? Math.round(state.byDifficulty[d].correct / state.byDifficulty[d].total * 100)
     : 0;
 
+  // Compute topics to improve: any topic with at least 1 wrong, sorted by error rate desc
+  const topicsToImprove = Object.entries(state.byTopic)
+    .map(([topic, s]) => ({
+      topic,
+      correct: s.correct,
+      total: s.total,
+      wrong: s.total - s.correct,
+      pct: Math.round(s.correct / s.total * 100)
+    }))
+    .filter(t => t.wrong > 0)
+    .sort((a, b) => a.pct - b.pct || b.wrong - a.wrong);
+
+  const severity = (pct) => {
+    if (pct < 50) return { label: 'Crítico', class: 'sev-critical' };
+    if (pct < 75) return { label: 'Reforçar', class: 'sev-warn' };
+    return { label: 'Melhorar', class: 'sev-mild' };
+  };
+
+  let topicsHTML = '';
+  if (topicsToImprove.length > 0) {
+    const shown = topicsToImprove.slice(0, 10);
+    topicsHTML = `
+      <div class="topics-section">
+        <h3 class="topics-title">Matérias a melhorar</h3>
+        <p class="topics-subtitle">Ordenadas por prioridade (menor taxa de acerto primeiro)</p>
+        <div class="topics-list">
+          ${shown.map(t => {
+            const sev = severity(t.pct);
+            return `
+              <div class="topic-row">
+                <div class="topic-info">
+                  <div class="topic-name">${t.topic}</div>
+                  <div class="topic-stats">${t.correct}/${t.total} acertos · ${t.pct}%</div>
+                </div>
+                <span class="severity-tag ${sev.class}">${sev.label}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        ${topicsToImprove.length > 10 ? `<p class="topics-more">+ ${topicsToImprove.length - 10} outros tópicos com erros</p>` : ''}
+      </div>
+    `;
+  } else {
+    topicsHTML = `
+      <div class="topics-section all-correct">
+        <h3 class="topics-title">🎯 Excelente!</h3>
+        <p>Não tiveste erros em nenhum tópico. Continua a treinar para consolidar.</p>
+      </div>
+    `;
+  }
+
   content.innerHTML = `
     <div class="end-screen">
       <h2>${title}</h2>
@@ -1112,6 +1700,7 @@ function renderEnd() {
         <strong>Recomendação</strong>
         <p>${recommendation}</p>
       </div>
+      ${topicsHTML}
       <button class="btn btn-big" onclick="startGame()">Jogar de novo</button>
     </div>
   `;
